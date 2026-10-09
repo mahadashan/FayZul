@@ -1,0 +1,14 @@
+rafkkhafo n 10 + 2 kefeBafarrafabafar;
+
+rafkkhafo i 0 kefeBafarrafabafar;
+
+jafabTafak (i chofotafaHafai n) {
+    rafkkhafo j 0 kefeBafarrafabafar;
+    jafabTafak (j chofotafaHafai i) {
+        difikhkhafa("* ");
+        j j + 1 kefeBafarrafabafar;
+    }
+    difikhkhafa(" ", bafas);
+    i i + 1 kefeBafarrafabafar;
+}
+

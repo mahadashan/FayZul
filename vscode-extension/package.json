@@ -1,0 +1,39 @@
+{
+  "name": "fayzul",
+  "displayName": "FayZul",
+  "description": "Language support for the FayZul programming language (.fz)",
+  "version": "0.1.0",
+  "publisher": "fayzul-cc",
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "activationEvents": [
+    "onLanguage:fayzul"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "fayzul",
+        "aliases": [
+          "FayZul",
+          "fayzul"
+        ],
+        "extensions": [
+          ".fz"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "fayzul",
+        "scopeName": "source.fayzul",
+        "path": "./syntaxes/fayzul.tmLanguage.json"
+      }
+    ]
+  }
+}

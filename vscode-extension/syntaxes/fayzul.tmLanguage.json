@@ -1,0 +1,92 @@
+{
+    "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+    "name": "FayZul",
+    "scopeName": "source.fayzul",
+    "patterns": [
+        {
+            "include": "#comments"
+        },
+        {
+            "include": "#strings"
+        },
+        {
+            "include": "#numbers"
+        },
+        {
+            "include": "#booleans"
+        },
+        {
+            "include": "#null"
+        },
+        {
+            "include": "#keywords"
+        },
+        {
+            "include": "#comparisonOperators"
+        },
+        {
+            "include": "#logicalOperators"
+        },
+        {
+            "include": "#arithmeticOperators"
+        }
+    ],
+    "repository": {
+        "comments": {
+            "patterns": [
+                {
+                    "name": "comment.line.double-slash.fayzul",
+                    "match": "//.*$"
+                }
+            ]
+        },
+        "strings": {
+            "name": "string.quoted.double.fayzul",
+            "begin": "\"",
+            "end": "\"",
+            "patterns": [
+                {
+                    "name": "constant.character.escape.fayzul",
+                    "match": "\\\\."
+                }
+            ]
+        },
+        "numbers": {
+            "name": "constant.numeric.fayzul",
+            "match": "\\b\\d+(?:\\.\\d+)?\\b"
+        },
+        "booleans": {
+            "name": "constant.language.boolean.fayzul",
+            "match": "\\b(?:Jhufoot|Safach)\\b"
+        },
+        "null": {
+            "name": "constant.language.null.fayzul",
+            "match": "\\b(?:Khafalafi)\\b"
+        },
+        "keywords": {
+            "patterns": [
+                {
+                    "name": "keyword.control.fayzul",
+                    "match": "\\b(?:chafalnayDafo|jafabTafak|wafarnafa|Wafapafas|afagafar|Rufukufo|kafaam)\\b"
+                },
+                {
+                    "name": "keyword.other.fayzul",
+                    "match": "\\b(?:kefeBafarrafabafar|difikhkhafa|rafkkhafo|bafas)\\b"
+                }
+            ]
+        },
+        "comparisonOperators": {
+            "name": "keyword.operator.comparison.fayzul",
+            "match": "\\b(?:chofotafaYafaBafarrafabafarHafai|bafarafaYafaBafarrafabafarHafai|mufukhtafalafifHafai|bafarrafabafarHafai|chofotafaHafai|bafaraHafai)\\b"
+        },
+        "logicalOperators": {
+            "name": "keyword.operator.logical.fayzul",
+            "match": "\\b(?:Nafain|Afaur|Yafa)\\b"
+        },
+        "arithmeticOperators": {
+            "name": "keyword.operator.arithmetic.fayzul",
+            "match": "[+\\-*/%]"
+        }
+    },
+    "_comment": "AUTO-GENERATED from language/language-definition.json — do not edit by hand"
+}

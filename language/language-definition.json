@@ -1,0 +1,254 @@
+{
+  "language": {
+    "name": "FayZul",
+    "id": "fayzul",
+    "extensions": [".fz"],
+    "lineComment": "//"
+  },
+  "keywords": [
+    {
+      "macro": "FZ_PRINT",
+      "word": "difikhkhafa",
+      "meaning": "print",
+      "description": "Print / output a value (or multiple comma-separated values). No newline unless 'bafas' is used.",
+      "group": "io",
+      "groupTitle": "Output / I/O",
+      "tmScope": "keyword.other.print.fayzul",
+      "implemented": true,
+      "snippet": {
+        "body": "difikhkhafa(${1:value}, bafas);"
+      }
+    },
+    {
+      "macro": "FZ_ENDL",
+      "word": "bafas",
+      "meaning": "end line / newline",
+      "description": "End-line marker inside difikhkhafa — produces a newline (like C++ endl). Without 'bafas', next print continues on same line.",
+      "group": "io",
+      "groupTitle": "Output / I/O",
+      "tmScope": "keyword.other.endl.fayzul",
+      "implemented": true
+    },
+    {
+      "macro": "FZ_STORE",
+      "word": "rafkkhafo",
+      "meaning": "store / keep",
+      "description": "Declare and store a variable",
+      "group": "variables",
+      "groupTitle": "Variables",
+      "tmScope": "keyword.other.declaration.fayzul",
+      "implemented": true,
+      "snippet": {
+        "body": "rafkkhafo ${1:name} ${2:0} kefeBafarrafabafar;"
+      }
+    },
+    {
+      "macro": "FZ_ASSIGN",
+      "word": "kefeBafarrafabafar",
+      "meaning": "assign / set to",
+      "description": "Assign a value to a variable (postfix, comes after value)",
+      "group": "variables",
+      "groupTitle": "Variables",
+      "tmScope": "keyword.other.assignment.fayzul",
+      "implemented": true
+    },
+    {
+      "macro": "FZ_IF",
+      "word": "afagafar",
+      "meaning": "if",
+      "description": "If condition",
+      "group": "conditionals",
+      "groupTitle": "Control flow — conditionals",
+      "tmScope": "keyword.control.conditional.fayzul",
+      "implemented": true,
+      "snippet": {
+        "body": "afagafar (${1:condition}) {\n\t$0\n}"
+      }
+    },
+    {
+      "macro": "FZ_ELSE",
+      "word": "wafarnafa",
+      "meaning": "otherwise / else",
+      "description": "Else / otherwise branch of an if statement",
+      "group": "conditionals",
+      "groupTitle": "Control flow — conditionals",
+      "tmScope": "keyword.control.conditional.fayzul",
+      "implemented": true,
+      "snippet": {
+        "body": "wafarnafa {\n\t$0\n}"
+      }
+    },
+    {
+      "macro": "FZ_WHILE",
+      "word": "jafabTafak",
+      "meaning": "while / as long as",
+      "description": "While loop — repeat a block as long as the condition is true",
+      "group": "loops",
+      "groupTitle": "Control flow — loops",
+      "tmScope": "keyword.control.loop.fayzul",
+      "implemented": true,
+      "snippet": {
+        "body": "jafabTafak (${1:condition}) {\n\t$0\n}"
+      }
+    },
+    {
+      "macro": "FZ_BREAK",
+      "word": "Rufukufo",
+      "meaning": "break / stop",
+      "description": "Break — stop the current loop early",
+      "group": "loops",
+      "groupTitle": "Control flow — loops",
+      "tmScope": "keyword.control.loop.fayzul",
+      "implemented": true,
+      "snippet": {
+        "body": "Rufukufo;"
+      }
+    },
+    {
+      "macro": "FZ_CONTINUE",
+      "word": "chafalnayDafo",
+      "meaning": "continue / keep going",
+      "description": "Continue — skip the rest of this loop iteration",
+      "group": "loops",
+      "groupTitle": "Control flow — loops",
+      "tmScope": "keyword.control.loop.fayzul",
+      "implemented": true,
+      "snippet": {
+        "body": "chafalnayDafo;"
+      }
+    },
+    {
+      "macro": "FZ_FUNCTION",
+      "word": "kafaam",
+      "meaning": "function / work",
+      "description": "Function / work (Stage 5 — reserved, not compiled yet)",
+      "group": "functions",
+      "groupTitle": "Functions",
+      "tmScope": "keyword.control.fayzul",
+      "implemented": false
+    },
+    {
+      "macro": "FZ_RETURN",
+      "word": "Wafapafas",
+      "meaning": "return / back",
+      "description": "Return / send back a value (Stage 5 — reserved, not compiled yet)",
+      "group": "functions",
+      "groupTitle": "Functions",
+      "tmScope": "keyword.control.fayzul",
+      "implemented": false
+    },
+    {
+      "macro": "FZ_TRUE",
+      "word": "Safach",
+      "meaning": "true",
+      "description": "Boolean true",
+      "group": "booleans",
+      "groupTitle": "Boolean literals",
+      "tmScope": "constant.language.boolean.fayzul",
+      "implemented": true
+    },
+    {
+      "macro": "FZ_FALSE",
+      "word": "Jhufoot",
+      "meaning": "false / wrong",
+      "description": "Boolean false / wrong",
+      "group": "booleans",
+      "groupTitle": "Boolean literals",
+      "tmScope": "constant.language.boolean.fayzul",
+      "implemented": true
+    },
+    {
+      "macro": "FZ_NULL",
+      "word": "Khafalafi",
+      "meaning": "null / empty",
+      "description": "Null / empty / nothing",
+      "group": "null",
+      "groupTitle": "Null literal",
+      "tmScope": "constant.language.null.fayzul",
+      "implemented": true
+    }
+  ],
+  "comparisonOperators": [
+    {
+      "macro": "FZ_OP_GT",
+      "word": "bafaraHafai",
+      "cpp": ">",
+      "meaning": "greater than",
+      "description": "Greater than (>)",
+      "implemented": true
+    },
+    {
+      "macro": "FZ_OP_LT",
+      "word": "chofotafaHafai",
+      "cpp": "<",
+      "meaning": "less than",
+      "description": "Less than (<)",
+      "implemented": true
+    },
+    {
+      "macro": "FZ_OP_EQ",
+      "word": "bafarrafabafarHafai",
+      "cpp": "==",
+      "meaning": "equal to",
+      "description": "Equal to (==)",
+      "implemented": true
+    },
+    {
+      "macro": "FZ_OP_GTE",
+      "word": "bafarafaYafaBafarrafabafarHafai",
+      "cpp": ">=",
+      "meaning": "greater than or equal to",
+      "description": "Greater than or equal to (>=)",
+      "implemented": true
+    },
+    {
+      "macro": "FZ_OP_LTE",
+      "word": "chofotafaYafaBafarrafabafarHafai",
+      "cpp": "<=",
+      "meaning": "less than or equal to",
+      "description": "Less than or equal to (<=)",
+      "implemented": true
+    },
+    {
+      "macro": "FZ_OP_NEQ",
+      "word": "mufukhtafalafifHafai",
+      "cpp": "!=",
+      "meaning": "not equal / different",
+      "description": "Not equal / different (!=)",
+      "implemented": true
+    }
+  ],
+  "logicalOperators": [
+    {
+      "macro": "FZ_OP_AND",
+      "word": "Afaur",
+      "cpp": "&&",
+      "meaning": "and",
+      "description": "Logical and (&&)",
+      "implemented": true
+    },
+    {
+      "macro": "FZ_OP_OR",
+      "word": "Yafa",
+      "cpp": "||",
+      "meaning": "or",
+      "description": "Logical or (||)",
+      "implemented": true
+    },
+    {
+      "macro": "FZ_OP_NOT",
+      "word": "Nafain",
+      "cpp": "!",
+      "meaning": "not",
+      "description": "Logical not (!)",
+      "implemented": true
+    }
+  ],
+  "arithmeticOperators": [
+    { "symbol": "+", "description": "Addition" },
+    { "symbol": "-", "description": "Subtraction" },
+    { "symbol": "*", "description": "Multiplication" },
+    { "symbol": "/", "description": "Division" },
+    { "symbol": "%", "description": "Modulo / remainder" }
+  ]
+}
