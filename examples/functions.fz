@@ -1,0 +1,38 @@
+// Functions (kafaam), return (Wafapafas), recursion, and mutual recursion.
+
+kafaam fact(n) {
+    // The base case comes first: FayZul infers the return type from it.
+    afagafar (n chofotafaYafaBafarrafabafarHafai 1) {
+        Wafapafas 1;
+    }
+    Wafapafas n * fact(n - 1);
+}
+
+kafaam isEven(n) {
+    afagafar (n bafarrafabafarHafai 0) {
+        Wafapafas Safach;
+    }
+    Wafapafas isOdd(n - 1);
+}
+
+kafaam isOdd(n) {
+    afagafar (n bafarrafabafarHafai 0) {
+        Wafapafas Jhufoot;
+    }
+    Wafapafas isEven(n - 1);
+}
+
+// Parameters are untyped: jor works with whole numbers and decimals.
+kafaam jor(a, b) {
+    Wafapafas a + b;
+}
+
+// A function without 'Wafapafas <value>' is called as a statement.
+kafaam salam(naam) {
+    difikhkhafa("Salam, ", naam, "!", bafas);
+}
+
+salam("FayZul");
+difikhkhafa("5! = ", fact(5), bafas);
+difikhkhafa("isEven(10) = ", isEven(10), bafas);
+difikhkhafa("jor(2, 0.5) = ", jor(2, 0.5), bafas);

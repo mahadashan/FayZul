@@ -1,0 +1,4 @@
+difikhkhafa("tab:\there", bafas);
+difikhkhafa("quote:\"q\"", bafas);
+difikhkhafa("slash:\\", bafas);
+difikhkhafa("line1\nline2", bafas);

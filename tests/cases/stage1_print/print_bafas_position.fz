@@ -1,0 +1,3 @@
+// bafas anywhere in the argument list adds one newline at the end
+difikhkhafa(bafas, "A");
+difikhkhafa("B", bafas, bafas);

@@ -1,0 +1,13 @@
+rafkkhafo x 2 kefeBafarrafabafar;
+rafkkhafo y 3 kefeBafarrafabafar;
+difikhkhafa(x + y * 2, bafas);
+difikhkhafa((x + y) * 2, bafas);
+difikhkhafa(10 - 3 - 2, bafas);
+difikhkhafa(100 / 10 / 5, bafas);
+difikhkhafa(7 / 2, bafas);
+difikhkhafa(7 % 3, bafas);
+difikhkhafa(7.0 / 2, bafas);
+difikhkhafa(2 + 3 * 4 - 6 / 2, bafas);
+difikhkhafa(0 - 5, bafas);
+rafkkhafo r (x + y) * 2 kefeBafarrafabafar;
+difikhkhafa(r, bafas);

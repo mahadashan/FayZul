@@ -1,0 +1,33 @@
+rafkkhafo n 0 kefeBafarrafabafar;
+jafabTafak (Safach) {
+    afagafar (n bafarrafabafarHafai 3) {
+        Rufukufo;
+    }
+    n n + 1 kefeBafarrafabafar;
+}
+difikhkhafa("n=", n, bafas);
+
+rafkkhafo k 0 kefeBafarrafabafar;
+jafabTafak (k chofotafaHafai 5) {
+    k k + 1 kefeBafarrafabafar;
+    afagafar (k bafarrafabafarHafai 3) {
+        chafalnayDafo;
+    }
+    difikhkhafa(k, " ");
+}
+difikhkhafa(bafas);
+
+// Rufukufo leaves only the innermost loop
+rafkkhafo i 0 kefeBafarrafabafar;
+jafabTafak (i chofotafaHafai 3) {
+    rafkkhafo j 0 kefeBafarrafabafar;
+    jafabTafak (Safach) {
+        afagafar (j bafarrafabafarHafai 2) {
+            Rufukufo;
+        }
+        difikhkhafa(i, j, " ");
+        j j + 1 kefeBafarrafabafar;
+    }
+    i i + 1 kefeBafarrafabafar;
+}
+difikhkhafa(bafas);

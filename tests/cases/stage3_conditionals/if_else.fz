@@ -1,0 +1,27 @@
+rafkkhafo x 7 kefeBafarrafabafar;
+afagafar (x bafaraHafai 5) {
+    difikhkhafa("big", bafas);
+} wafarnafa {
+    difikhkhafa("small", bafas);
+}
+afagafar (x chofotafaHafai 5) {
+    difikhkhafa("small", bafas);
+} wafarnafa {
+    difikhkhafa("not small", bafas);
+}
+afagafar (x bafarrafabafarHafai 7) {
+    difikhkhafa("seven", bafas);
+}
+afagafar (x bafarrafabafarHafai 8) {
+    difikhkhafa("eight", bafas);
+}
+afagafar (x chofotafaHafai 0) {
+    difikhkhafa("negative", bafas);
+} wafarnafa {
+    afagafar (x chofotafaHafai 10) {
+        difikhkhafa("single digit", bafas);
+    } wafarnafa {
+        difikhkhafa("big", bafas);
+    }
+}
+afagafar (Safach) { }

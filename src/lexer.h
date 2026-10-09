@@ -12,7 +12,8 @@
 // The Lexer knows about:
 //   - FayZul keywords       (from keywords.h)
 //   - FayZul operator words (from operators.h)
-//   - Symbol tokens         (+, -, *, /, %, =, (, ), {, }, ;, ,)
+//   - Symbol tokens         (+, -, *, /, %, (, ), {, }, ;, ,)
+//                           ('=' is NOT a token: assignment is the postfix word)
 //   - String literals       ("...")
 //   - Number literals       (integer and decimal)
 //   - Identifiers           (user-defined names)
@@ -65,6 +66,7 @@ private:
     // Construct a single-character token at the current position.
     Token       makeToken(TokenType type, const std::string& lexeme);
 
-    // Throw a formatted lexer error with line/column information.
-    [[noreturn]] void lexError(const std::string& message) const;
+    // Throw a formatted lexer error at the given source position
+    // (the start of the offending character or string literal).
+    [[noreturn]] void lexError(int line, int column, const std::string& message) const;
 };

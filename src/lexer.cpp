@@ -120,8 +120,8 @@ std::vector<Token> Lexer::tokenize() {
             default: {
                 std::ostringstream oss;
                 oss << "Unknown character '" << sym << "'";
-                // Temporarily rewind column to point at the bad char
-                lexError(oss.str());
+                // Report the position of the bad character, not the one after it
+                lexError(tokenLine, tokenColumn, oss.str());
             }
         }
     }
@@ -168,7 +168,7 @@ Token Lexer::readString() {
         if (peek() == '\\') {
             advance(); // consume backslash
             if (isAtEnd()) {
-                lexError("Unterminated string: escape sequence at end of file");
+                lexError(startLine, startColumn, "Unterminated string: escape sequence at end of file");
             }
             char esc = advance();
             switch (esc) {
@@ -183,14 +183,14 @@ Token Lexer::readString() {
                     break;
             }
         } else if (peek() == '\n') {
-            lexError("Unterminated string: newline inside string literal");
+            lexError(startLine, startColumn, "Unterminated string: newline inside string literal");
         } else {
             value += advance();
         }
     }
 
     if (isAtEnd()) {
-        lexError("Unterminated string: reached end of file");
+        lexError(startLine, startColumn, "Unterminated string: reached end of file");
     }
 
     advance(); // consume closing '"'
@@ -284,9 +284,9 @@ Token Lexer::makeToken(TokenType type, const std::string& lexeme) {
 // ---------------------------------------------------------------------------
 // lexError — throw a formatted error with line + column
 // ---------------------------------------------------------------------------
-void Lexer::lexError(const std::string& message) const {
+void Lexer::lexError(int line, int column, const std::string& message) const {
     std::ostringstream oss;
-    oss << "[Lexer Error] Line " << m_line << ", Column " << m_column
+    oss << "[Lexer Error] Line " << line << ", Column " << column
         << ": " << message;
     throw std::runtime_error(oss.str());
 }

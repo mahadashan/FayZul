@@ -1,0 +1,11 @@
+difikhkhafa(Safach Afaur Jhufoot, Safach Yafa Jhufoot, Nafain Jhufoot, bafas);
+// Afaur binds tighter than Yafa
+difikhkhafa(Safach Yafa Jhufoot Afaur Jhufoot, bafas);
+difikhkhafa((Safach Yafa Jhufoot) Afaur Jhufoot, bafas);
+// Nafain sits below comparison: this is !(0 > 5)
+difikhkhafa(Nafain 0 bafaraHafai 5, bafas);
+difikhkhafa(Nafain Nafain Safach, bafas);
+// Nafain binds tighter than Afaur: (!Safach) && Jhufoot
+difikhkhafa(Nafain Safach Afaur Jhufoot, bafas);
+rafkkhafo x 50 kefeBafarrafabafar;
+difikhkhafa(x bafaraHafai 0 Afaur x chofotafaHafai 100, bafas);

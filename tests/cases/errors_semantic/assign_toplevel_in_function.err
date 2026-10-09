@@ -1,0 +1,1 @@
+[Semantic Error] Line 3, Column 5: Variable 'x' is declared at the top level and is not visible inside function 'f'

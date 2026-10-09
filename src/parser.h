@@ -17,19 +17,31 @@
 //   - Raw FayZul source text (all characters were consumed by the Lexer)
 //   - C++ output (that is the Code Generator's job)
 //
-// GRAMMAR SUPPORTED (v1 → v4):
-//   program        → statement* EOF
-//   statement      → printStmt | varDeclStmt | assignStmt | ifStmt
-//                  | whileStmt | breakStmt | continueStmt
+// GRAMMAR SUPPORTED (Stages 1–6):
+//   program        → ( functionDecl | statement )* EOF
+//   functionDecl   → FUNCTION IDENTIFIER '(' paramList? ')' block   (top level only)
+//   paramList      → IDENTIFIER ( ',' IDENTIFIER )*
+//   statement      → printStmt | varDeclStmt | assignStmt | callStmt
+//                  | ifStmt | whileStmt | breakStmt | continueStmt
+//                  | returnStmt
 //   printStmt      → PRINT '(' ( printArg (',' printArg)* )? ')' ';'
 //   printArg       → expression | ENDLINE
 //   varDeclStmt    → STORE IDENTIFIER expression ASSIGN ';'
 //   assignStmt     → IDENTIFIER expression ASSIGN ';'
+//   callStmt       → IDENTIFIER '(' argList? ')' ';'
+//   argList        → expression ( ',' expression )*
 //   ifStmt         → IF '(' expression ')' block ( ELSE block )?
 //   whileStmt      → WHILE '(' expression ')' block
 //   breakStmt      → BREAK ';'
 //   continueStmt   → CONTINUE ';'
+//   returnStmt     → RETURN expression? ';'
 //   block          → '{' statement* '}'
+//
+// CALL vs. ASSIGNMENT (both may start with IDENTIFIER '('):
+//   At statement start, IDENTIFIER '(' is a callStmt exactly when the token
+//   after the matching ')' is ';'. Otherwise it is an assignStmt whose value
+//   begins with a parenthesised expression, e.g.  x (1) kefeBafarrafabafar;
+//   The forms cannot overlap: an assignStmt always has ASSIGN before its ';'.
 //   expression     → logicalOr
 //   logicalOr      → logicalAnd  ( OR  logicalAnd  )*
 //   logicalAnd     → logicalNot  ( AND logicalNot  )*
@@ -39,6 +51,7 @@
 //   additive       → term   ( ('+' | '-') term   )*
 //   term           → primary ( ('*' | '/' | '%') primary )*
 //   primary        → STRING | NUMBER | BOOL_TRUE | BOOL_FALSE | NULL
+//                    | IDENTIFIER '(' argList? ')'      (call expression)
 //                    | IDENTIFIER | '(' expression ')'
 // =============================================================================
 
@@ -62,6 +75,10 @@ private:
     std::vector<Token> m_tokens;
     size_t             m_pos;       // Index of current (un-consumed) token
 
+    // Set while parsing a function body: records whether a value-returning
+    // 'Wafapafas expr;' was seen (stored in FunctionDeclNode::returnsValue).
+    bool               m_sawValueReturn = false;
+
     // --- Token navigation helpers ---
     const Token& current() const;               // Peek at the current token
     const Token& peek(size_t offset = 1) const; // Peek ahead by `offset`
@@ -82,6 +99,12 @@ private:
     ASTNodePtr parseBreakStatement();    // Rufukufo;
     ASTNodePtr parseContinueStatement(); // chafalnayDafo;
     ASTNodePtr parseBlock();             // { statement* }
+    ASTNodePtr parseFunctionDecl();      // kafaam name(a, b) { }
+    ASTNodePtr parseReturnStatement();   // Wafapafas expr;  /  Wafapafas;
+    ASTNodePtr parseCallStatement();     // name(args);
+    ASTNodePtr parseCallExpr();          // name(args) — current token is the name
+    bool       isCallStatement() const;  // IDENTIFIER '(' ... ')' ';' lookahead
+    size_t     afterMatchingParen(size_t open) const; // index after the ')' matching m_tokens[open]
 
     // --- Parsing rules: expression hierarchy (lowest → highest precedence) ---
     ASTNodePtr parseExpression();        // entry point → calls logicalOr

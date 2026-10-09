@@ -35,7 +35,12 @@ std::unique_ptr<ProgramNode> Parser::parse() {
     auto program = std::make_unique<ProgramNode>();
 
     while (!isAtEnd()) {
-        program->statements.push_back(parseStatement());
+        // Function declarations are only legal at the top level.
+        if (check(TokenType::Function)) {
+            program->statements.push_back(parseFunctionDecl());
+        } else {
+            program->statements.push_back(parseStatement());
+        }
     }
 
     return program;
@@ -66,13 +71,20 @@ ASTNodePtr Parser::parseStatement() {
         case TokenType::Continue:
             return parseContinueStatement();
 
-        // An identifier at statement position is an assignment: x = expr;
+        case TokenType::Return:
+            return parseReturnStatement();
+
+        // An identifier at statement position is either a call statement
+        // (f(args);) or an assignment (x expr kefeBafarrafabafar;).
         case TokenType::Identifier:
+            if (isCallStatement()) {
+                return parseCallStatement();
+            }
             return parseAssignStatement();
 
-        // --- Future statement types ---
-        // case TokenType::Function: return parseFunctionDecl();
-        // case TokenType::Return:   return parseReturnStatement();
+        case TokenType::Function:
+            parseError("'" + std::string(FZ_FUNCTION) +
+                       "' functions can only be declared at the top level, not inside a block");
 
         default:
             parseError("Unexpected token '" + tok.lexeme + "' — expected a statement");
@@ -180,10 +192,20 @@ ASTNodePtr Parser::parseAssignStatement() {
     int stmtLine = current().line;
     int stmtCol  = current().column;
 
+    // 'name ( ... )' followed by neither ';' nor the assign word was most
+    // likely meant as a call that is missing its ';'.
+    size_t parenGroupEnd = afterMatchingParen(m_pos + 1);
+
     Token nameTok = consume(); // consume the IDENTIFIER
 
     // Parse the value expression BEFORE the assign keyword
     ASTNodePtr val = parseExpression();
+
+    if (parenGroupEnd != 0 && m_pos == parenGroupEnd && !check(TokenType::Assign)) {
+        parseError("Expected ';' after call to '" + nameTok.lexeme + "' (or '" +
+                   std::string(FZ_ASSIGN) + "' to assign a value to '" + nameTok.lexeme +
+                   "') (got '" + current().lexeme + "')");
+    }
 
     expect(TokenType::Assign,
         "Expected '" + std::string(FZ_ASSIGN) + "' after value expression in assignment");
@@ -319,6 +341,168 @@ ASTNodePtr Parser::parseBlock() {
     expect(TokenType::RightBrace, "Expected '}' to close block");
 
     return block;
+}
+
+// ---------------------------------------------------------------------------
+// parseFunctionDecl
+//
+//   Grammar rule:
+//     functionDecl → FUNCTION IDENTIFIER '(' paramList? ')' block
+//     paramList    → IDENTIFIER ( ',' IDENTIFIER )*
+//
+//   Example FayZul:
+//     kafaam jor(a, b) {
+//         Wafapafas a + b;
+//     }
+// ---------------------------------------------------------------------------
+ASTNodePtr Parser::parseFunctionDecl() {
+    int declLine = current().line;
+    int declCol  = current().column;
+
+    consume(); // consume FUNCTION token
+
+    Token nameTok = expect(TokenType::Identifier,
+        "Expected function name after '" + std::string(FZ_FUNCTION) + "'");
+
+    expect(TokenType::LeftParen,
+        "Expected '(' after function name '" + nameTok.lexeme + "'");
+
+    std::vector<Parameter> params;
+    if (!check(TokenType::RightParen)) {
+        while (true) {
+            Token p = expect(TokenType::Identifier,
+                "Expected parameter name in '" + nameTok.lexeme + "(...)'");
+            params.push_back(Parameter{p.lexeme, p.line, p.column});
+            if (!match(TokenType::Comma)) break;
+        }
+    }
+
+    expect(TokenType::RightParen,
+        "Expected ')' after parameters of '" + nameTok.lexeme + "'");
+
+    m_sawValueReturn = false;
+    ASTNodePtr body = parseBlock();
+    bool returnsValue = m_sawValueReturn;
+    m_sawValueReturn = false;
+
+    return std::make_unique<FunctionDeclNode>(
+        nameTok.lexeme, std::move(params), std::move(body), returnsValue,
+        declLine, declCol);
+}
+
+// ---------------------------------------------------------------------------
+// parseReturnStatement
+//
+//   Grammar rule:
+//     returnStmt → RETURN expression? ';'
+//
+//   Whether 'Wafapafas' is inside a function is checked by the semantic pass.
+// ---------------------------------------------------------------------------
+ASTNodePtr Parser::parseReturnStatement() {
+    int stmtLine = current().line;
+    int stmtCol  = current().column;
+
+    consume(); // consume RETURN token
+
+    ASTNodePtr value = nullptr;
+    if (!check(TokenType::Semicolon)) {
+        value = parseExpression();
+        m_sawValueReturn = true;
+    }
+
+    expect(TokenType::Semicolon,
+        "Expected ';' after '" + std::string(FZ_RETURN) + "' statement");
+
+    return std::make_unique<ReturnStmtNode>(std::move(value), stmtLine, stmtCol);
+}
+
+// ---------------------------------------------------------------------------
+// afterMatchingParen
+//   If the token at index `open` is '(', returns the index of the token just
+//   after its matching ')'. Returns 0 if there is no '(' there or the
+//   parentheses never balance before end of file.
+// ---------------------------------------------------------------------------
+size_t Parser::afterMatchingParen(size_t open) const {
+    if (open >= m_tokens.size() || m_tokens[open].type != TokenType::LeftParen) {
+        return 0;
+    }
+
+    int depth = 0;
+    for (size_t i = open; i < m_tokens.size(); ++i) {
+        TokenType t = m_tokens[i].type;
+        if (t == TokenType::LeftParen) {
+            depth++;
+        } else if (t == TokenType::RightParen) {
+            depth--;
+            if (depth == 0) {
+                return i + 1;   // always valid: the last token is EndOfFile
+            }
+        }
+    }
+    return 0;
+}
+
+// ---------------------------------------------------------------------------
+// isCallStatement — decide between callStmt and assignStmt
+//
+//   Called with the IDENTIFIER as the current token. Returns true when the
+//   statement has the shape  IDENTIFIER '(' ... ')' ';'  where ')' matches
+//   the first '('. If the parentheses never balance, it also returns true so
+//   the error is reported as a malformed call ("Expected ')' ...").
+// ---------------------------------------------------------------------------
+bool Parser::isCallStatement() const {
+    if (peek(1).type != TokenType::LeftParen) {
+        return false;
+    }
+
+    size_t end = afterMatchingParen(m_pos + 1);
+    if (end == 0) {
+        return true;
+    }
+    return m_tokens[end].type == TokenType::Semicolon;
+}
+
+// ---------------------------------------------------------------------------
+// parseCallStatement
+//
+//   Grammar rule:
+//     callStmt → IDENTIFIER '(' argList? ')' ';'
+// ---------------------------------------------------------------------------
+ASTNodePtr Parser::parseCallStatement() {
+    int stmtLine = current().line;
+    int stmtCol  = current().column;
+
+    ASTNodePtr call = parseCallExpr();
+    const std::string& name = static_cast<const CallExprNode&>(*call).callee;
+
+    expect(TokenType::Semicolon, "Expected ';' after call to '" + name + "'");
+
+    return std::make_unique<CallStmtNode>(std::move(call), stmtLine, stmtCol);
+}
+
+// ---------------------------------------------------------------------------
+// parseCallExpr
+//
+//   Grammar rule:
+//     call    → IDENTIFIER '(' argList? ')'
+//     argList → expression ( ',' expression )*
+// ---------------------------------------------------------------------------
+ASTNodePtr Parser::parseCallExpr() {
+    Token nameTok = consume(); // consume the IDENTIFIER
+    expect(TokenType::LeftParen, "Expected '(' after function name '" + nameTok.lexeme + "'");
+
+    std::vector<ASTNodePtr> args;
+    if (!check(TokenType::RightParen)) {
+        while (true) {
+            args.push_back(parseExpression());
+            if (!match(TokenType::Comma)) break;
+        }
+    }
+
+    expect(TokenType::RightParen, "Expected ')' after arguments to '" + nameTok.lexeme + "'");
+
+    return std::make_unique<CallExprNode>(nameTok.lexeme, std::move(args),
+                                          nameTok.line, nameTok.column);
 }
 
 // ---------------------------------------------------------------------------
@@ -509,6 +693,12 @@ ASTNodePtr Parser::parsePrimary() {
         }
 
         case TokenType::Identifier: {
+            // IDENTIFIER '(' inside an expression is always a call. Two
+            // juxtaposed operands were never valid, so no existing program
+            // changes meaning.
+            if (peek().type == TokenType::LeftParen) {
+                return parseCallExpr();
+            }
             Token t = consume();
             return std::make_unique<IdentifierNode>(t.lexeme, t.line, t.column);
         }

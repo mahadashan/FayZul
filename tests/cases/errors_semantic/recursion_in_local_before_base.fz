@@ -1,0 +1,13 @@
+kafaam fact(n) {
+    afagafar (n chofotafaYafaBafarrafabafarHafai 1) {
+        Wafapafas 1;
+    }
+    Wafapafas n * fact(n - 1);
+}
+kafaam sum(n) {
+    rafkkhafo rest 0 kefeBafarrafabafar;
+    afagafar (n bafaraHafai 0) {
+        rest sum(n - 1) kefeBafarrafabafar;
+    }
+    Wafapafas n + rest;
+}

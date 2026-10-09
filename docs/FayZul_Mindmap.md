@@ -1,10 +1,10 @@
 # FayZul Project Mind Map
 
 Snapshot of the FayZul compiler as of 2026-10-09, checked against the
-source in `src/`, `tools/`, `language/`, and `vscode-extension/`.
-"Implemented" means there is a working Lexer → Parser → CodeGen path that
-was exercised by compiling a `.fz` program. "Reserved" means the word is
-lexed but the parser rejects it.
+source in `src/`, `tools/`, `language/`, `tests/`, and `vscode-extension/`.
+"Implemented" means there is a working Lexer → Parser → Semantic →
+CodeGen path covered by the regression suite (`node tests/run-tests.js`,
+80/80 passing).
 
 ## Mind map
 
@@ -30,7 +30,8 @@ mindmap
       main.cpp driver
         Read .fz file
         Write build/NAME.cpp
-        Invoke g++
+        g++ -std=c++17 -pedantic-errors
+        Map g++ errors to FayZul lines
         Run build/NAME.exe
       Lexer
         Keyword map from FZ macros
@@ -41,40 +42,53 @@ mindmap
       Parser
         Recursive descent
         7 precedence levels
+        Call vs assignment lookahead
         Fails on first error
+      Semantic analyzer
+        Scopes and declarations
+        Loop context for break and continue
+        Function arity and return rules
+        Recursion order check
       AST
         unique_ptr ownership
         NodeKind dispatch
         Operators stored as C++ strings
       CodeGen
-        Everything inside main
-        auto for variables
-        std::cout chains
+        Functions as C++ templates
+        FZ_CTX keeps calls dependent
+        fz_ prefix on all names
+        Top-level code in main
+        Line map for diagnostics
     Implemented features
       Stage 1 print and strings
       Stage 2 variables and arithmetic
       Stage 3 if else comparison logic
       Stage 4 while break continue bafas
-    Planned features
       Stage 5 kafaam and Wafapafas
-      Stage 6 calls and arguments
-      Stage 7 errors and recovery
-      Not yet planned
-        Semantic analysis pass
-        Unary minus
-        String type semantics
-        Test suite
+      Stage 6 calls recursion mutual recursion
+    Testing
+      run-tests.js runner
+      Output tests
+      Syntax error tests
+      Semantic error tests
+      Translated C++ error tests
+      Examples smoke tests
+    Planned features
+      Stage 7 error recovery
+      Value semantics for strings and bools
+      Unary minus
+      CLI options
     Editor support
       VS Code extension
         TextMate highlighting
         Completion and snippets
         Hover descriptions
         Reads JSON at runtime
-    Known gaps
-      No semantic checks
-      Errors leak from g++
-      No regression tests
-      Docs drift from code
+    Known limits
+      auto typing fixes a variable type
+      Strings are C literals
+      Return type from first Wafapafas
+      One error at a time
 ```
 
 ## Component dependencies
@@ -97,13 +111,20 @@ flowchart LR
     TOK --> PAR[parser.cpp]
     AST[ast.h] --> PAR
     KW -->|error messages only| PAR
+    AST --> SEM[semantic.cpp]
+    KW -->|error messages only| SEM
     AST --> CG[codegen.cpp]
 
     LEX --> MAIN[main.cpp]
     PAR --> MAIN
+    SEM --> MAIN
     CG --> MAIN
+    KW -->|translated g++ messages| MAIN
     MAIN -->|writes| CPP[build/NAME.cpp]
-    CPP -->|g++ via std::system| EXE[build/NAME.exe]
+    CPP -->|g++ -std=c++17| EXE[build/NAME.exe]
+
+    TESTS[tests/run-tests.js] -->|builds and runs| MAIN
+    CASES[tests/cases] --> TESTS
 ```
 
 ## Notes for readers
@@ -112,14 +133,13 @@ flowchart LR
   keyword map in `Lexer::Lexer`, and the `tokenTypeName` switch are
   maintained by hand. A new word in the JSON file does nothing until
   these are updated as well.
-- **Parser and FayZul spellings.** `parser.cpp` includes `keywords.h`
-  only to put the current spelling into error messages. Its grammar
-  logic uses `TokenType` values only.
+- **FayZul spellings outside the lexer** appear only in error messages
+  via `FZ_*` macros (parser, semantic analyzer, driver). Grammar and
+  semantic logic use `TokenType` values and AST nodes.
 - **Codegen is free of FayZul words.** The parser converts operator
   words to C++ operator strings (`">"`, `"&&"`) before building the AST.
-- **Reserved, not implemented.** `kafaam` and `Wafapafas` produce tokens,
-  and `NodeKind` has `FunctionDecl`, `ReturnStmt`, and `CallExpr`. There
-  are no node structs, parser rules, or codegen for them yet.
+- **Functions** become C++17 function templates with a leading `FZ_CTX`
+  parameter; see the roadmap §3.1 for why.
 
 See [FayZul_Development_Roadmap.md](FayZul_Development_Roadmap.md) for
-priorities, discrepancies, and risks.
+design decisions, limitations, and remaining work.

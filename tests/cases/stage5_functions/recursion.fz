@@ -1,0 +1,21 @@
+kafaam fact(n) {
+    afagafar (n chofotafaYafaBafarrafabafarHafai 1) {
+        Wafapafas 1;
+    }
+    Wafapafas n * fact(n - 1);
+}
+
+kafaam fib(n) {
+    afagafar (n chofotafaHafai 2) {
+        Wafapafas n;
+    }
+    Wafapafas fib(n - 1) + fib(n - 2);
+}
+
+difikhkhafa(fact(1), " ", fact(5), " ", fact(10), bafas);
+rafkkhafo i 0 kefeBafarrafabafar;
+jafabTafak (i chofotafaHafai 10) {
+    difikhkhafa(fib(i), " ");
+    i i + 1 kefeBafarrafabafar;
+}
+difikhkhafa(bafas);

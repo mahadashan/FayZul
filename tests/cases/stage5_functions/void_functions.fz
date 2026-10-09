@@ -1,0 +1,20 @@
+kafaam salam() {
+    difikhkhafa("salam", bafas);
+}
+kafaam ginti(n) {
+    afagafar (n chofotafaHafai 1) {
+        Wafapafas;
+    }
+    difikhkhafa(n, " ");
+    ginti(n - 1);
+}
+kafaam dugna(x) {
+    Wafapafas x * 2;
+}
+salam();
+ginti(4);
+difikhkhafa(bafas);
+ginti(0);
+// A value-returning function may be called as a statement; the result is discarded
+dugna(5);
+difikhkhafa("done", bafas);

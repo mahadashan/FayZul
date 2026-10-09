@@ -1,0 +1,1 @@
+[Semantic Error] Line 3, Column 19: Call to 'isOdd' (which calls back into 'isEven') comes before any non-recursive 'Wafapafas' in 'isEven'

@@ -2,16 +2,16 @@
 #include <string>
 
 int main() {
-    auto n = (10 + 2);
-    auto i = 0;
-    while ((i < n)) {
-        auto j = 0;
-        while ((j < i)) {
+    auto fz_n = (10 + 2);
+    auto fz_i = 0;
+    while ((fz_i < fz_n)) {
+        auto fz_j = 0;
+        while ((fz_j < fz_i)) {
             std::cout << "* ";
-            j = (j + 1);
+            fz_j = (fz_j + 1);
         }
         std::cout << " " << std::endl;
-        i = (i + 1);
+        fz_i = (fz_i + 1);
     }
 
     return 0;

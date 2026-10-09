@@ -1,0 +1,12 @@
+kafaam isEven(n) {
+    afagafar (n mufukhtafalafifHafai 0) {
+        Wafapafas isOdd(n - 1);
+    }
+    Wafapafas Safach;
+}
+kafaam isOdd(n) {
+    afagafar (n bafarrafabafarHafai 0) {
+        Wafapafas Jhufoot;
+    }
+    Wafapafas isEven(n - 1);
+}

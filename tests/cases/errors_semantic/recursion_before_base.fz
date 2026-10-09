@@ -1,0 +1,7 @@
+kafaam fact(n) {
+    afagafar (n bafaraHafai 1) {
+        Wafapafas n * fact(n - 1);
+    }
+    Wafapafas 1;
+}
+difikhkhafa(fact(5), bafas);

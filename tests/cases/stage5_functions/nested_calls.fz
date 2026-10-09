@@ -1,0 +1,21 @@
+kafaam jor(a, b) {
+    Wafapafas a + b;
+}
+kafaam zarb(a, b) {
+    Wafapafas a * b;
+}
+kafaam teen() {
+    Wafapafas 3;
+}
+difikhkhafa(jor(zarb(2, 3), jor(1, teen())), bafas);
+difikhkhafa(jor(1, 2) * teen() + 1, bafas);
+afagafar (jor(1, 1) bafarrafabafarHafai 2 Afaur Nafain (teen() chofotafaHafai 3)) {
+    difikhkhafa("condition ok", bafas);
+}
+rafkkhafo i 0 kefeBafarrafabafar;
+jafabTafak (i chofotafaHafai jor(teen(), 0)) {
+    i jor(i, 1) kefeBafarrafabafar;
+}
+difikhkhafa(i, bafas);
+rafkkhafo y zarb((1 + 1), (2)) kefeBafarrafabafar;
+difikhkhafa(y, bafas);

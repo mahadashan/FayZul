@@ -1,0 +1,56 @@
+rafkkhafo x 100 kefeBafarrafabafar;
+
+kafaam badlo(x) {
+    // the parameter x is a copy; changing it does not affect the caller
+    x x + 1 kefeBafarrafabafar;
+    Wafapafas x;
+}
+
+kafaam jama(n) {
+    rafkkhafo total 0 kefeBafarrafabafar;
+    rafkkhafo i 1 kefeBafarrafabafar;
+    jafabTafak (Safach) {
+        afagafar (i bafaraHafai n) {
+            Rufukufo;
+        }
+        afagafar (i % 2 bafarrafabafarHafai 0) {
+            i i + 1 kefeBafarrafabafar;
+            chafalnayDafo;
+        }
+        total total + i kefeBafarrafabafar;
+        i i + 1 kefeBafarrafabafar;
+    }
+    Wafapafas total;
+}
+
+kafaam pehla(n) {
+    // return from inside a loop, with a final return after it
+    rafkkhafo i 0 kefeBafarrafabafar;
+    jafabTafak (i chofotafaHafai 100) {
+        afagafar (i * i bafaraHafai n) {
+            Wafapafas i;
+        }
+        i i + 1 kefeBafarrafabafar;
+    }
+    Wafapafas 0 - 1;
+}
+
+kafaam nishan(n) {
+    afagafar (n bafaraHafai 0) {
+        Wafapafas 1;
+    } wafarnafa {
+        afagafar (n chofotafaHafai 0) {
+            Wafapafas 0 - 1;
+        } wafarnafa {
+            Wafapafas 0;
+        }
+    }
+}
+
+difikhkhafa(badlo(x), " ", x, bafas);
+difikhkhafa(jama(10), bafas);
+difikhkhafa(pehla(50), " ", pehla(100000), bafas);
+difikhkhafa(nishan(5), nishan(0), nishan(0 - 5), bafas);
+// a local with the same name in two different functions and at top level
+rafkkhafo total 7 kefeBafarrafabafar;
+difikhkhafa(total, bafas);

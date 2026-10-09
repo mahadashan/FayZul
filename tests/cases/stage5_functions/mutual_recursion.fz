@@ -1,0 +1,31 @@
+// Called before either function is declared; declaration order does not matter
+difikhkhafa(isEven(10), isOdd(10), isEven(7), isOdd(7), bafas);
+
+kafaam isEven(n) {
+    afagafar (n bafarrafabafarHafai 0) {
+        Wafapafas Safach;
+    }
+    Wafapafas isOdd(n - 1);
+}
+
+kafaam isOdd(n) {
+    afagafar (n bafarrafabafarHafai 0) {
+        Wafapafas Jhufoot;
+    }
+    Wafapafas isEven(n - 1);
+}
+
+// Three-way cycle
+kafaam a(n) {
+    afagafar (n chofotafaYafaBafarrafabafarHafai 0) { Wafapafas 0; }
+    Wafapafas 1 + b(n - 1);
+}
+kafaam b(n) {
+    afagafar (n chofotafaYafaBafarrafabafarHafai 0) { Wafapafas 0; }
+    Wafapafas 10 + c(n - 1);
+}
+kafaam c(n) {
+    afagafar (n chofotafaYafaBafarrafabafarHafai 0) { Wafapafas 0; }
+    Wafapafas 100 + a(n - 1);
+}
+difikhkhafa(a(3), " ", a(5), bafas);

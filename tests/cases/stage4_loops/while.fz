@@ -1,0 +1,10 @@
+rafkkhafo i 0 kefeBafarrafabafar;
+jafabTafak (i chofotafaHafai 5) {
+    difikhkhafa(i, " ");
+    i i + 1 kefeBafarrafabafar;
+}
+difikhkhafa(bafas);
+jafabTafak (Jhufoot) {
+    difikhkhafa("never", bafas);
+}
+difikhkhafa("done", bafas);

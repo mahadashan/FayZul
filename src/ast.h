@@ -13,30 +13,27 @@
 //     can switch on the node type without dynamic_cast everywhere.
 //   - std::unique_ptr is used for ownership — no manual memory management.
 //
-// CURRENT NODE SET (v1 — enough for difikhkhafa):
-//   ProgramNode          — root: holds a list of statements
-//   PrintStmtNode        — difikhkhafa(expr);
+// NODE SET (all implemented):
+//   ProgramNode          — root: holds a list of top-level statements
+//   PrintStmtNode        — difikhkhafa(expr, ..., bafas);
 //   StringLiteralNode    — "hello"
 //   NumberLiteralNode    — 42, 3.14
 //   BoolLiteralNode      — Safach / Jhufoot
 //   NullLiteralNode      — Khafalafi
-//   IdentifierNode       — a user-defined variable/function name
-//
-// FUTURE NODES (stubs — add implementation in later stages):
+//   IdentifierNode       — a variable reference
 //   VarDeclNode          — rafkkhafo x expr kefeBafarrafabafar;
 //   AssignNode           — x expr kefeBafarrafabafar;
-//   BinaryExprNode       — expr op expr  (arithmetic / comparison)
+//   BinaryExprNode       — expr op expr  (arithmetic / comparison / logical)
 //   UnaryExprNode        — Nafain expr
 //   IfStmtNode           — afagafar (...) { } wafarnafa { }
 //   WhileStmtNode        — jafabTafak (...) { }
 //   BlockNode            — { stmt; stmt; }
 //   BreakStmtNode        — Rufukufo;
 //   ContinueStmtNode     — chafalnayDafo;
-//
-// FUTURE NODES (stubs — add implementation in later stages):
-//   FunctionDeclNode     — kafaam name(...) { }
-//   ReturnStmtNode       — Wafapafas expr;
-//   CallExprNode         — name(arg, arg)
+//   FunctionDeclNode     — kafaam name(a, b) { }      (top level only)
+//   ReturnStmtNode       — Wafapafas expr;  /  Wafapafas;
+//   CallExprNode         — name(arg, arg)              (expression)
+//   CallStmtNode         — name(arg, arg);             (statement)
 // =============================================================================
 
 #pragma once
@@ -72,10 +69,11 @@ enum class NodeKind {
     BreakStmt,
     ContinueStmt,
 
-    // --- Future stages (not yet implemented) ---
+    // --- Stages 5 and 6 ---
     FunctionDecl,
     ReturnStmt,
     CallExpr,
+    CallStmt,
 };
 
 // ---------------------------------------------------------------------------
@@ -166,7 +164,7 @@ struct IdentifierNode : ASTNode {
 // ---------------------------------------------------------------------------
 struct VarDeclNode : ASTNode {
     std::string name;       // Variable name (identifier)
-    ASTNodePtr  initializer; // The expression on the right-hand side of '='
+    ASTNodePtr  initializer; // The value expression written before kefeBafarrafabafar
 
     VarDeclNode(std::string varName, ASTNodePtr init, int ln, int col)
         : ASTNode(NodeKind::VarDecl, ln, col),
@@ -190,8 +188,8 @@ struct AssignNode : ASTNode {
 
 // ---------------------------------------------------------------------------
 // BinaryExprNode — left op right
-//   Covers arithmetic: +, -, *, /, %
-//   Stage 3 will extend this with comparison/logical operators.
+//   Covers arithmetic, comparison, and binary logical operators.
+//   The parser stores the C++ operator string, never the FayZul word.
 // ---------------------------------------------------------------------------
 struct BinaryExprNode : ASTNode {
     std::string op;     // C++ operator string: "+", "-", "*", "/", "%",
@@ -276,4 +274,69 @@ struct BreakStmtNode : ASTNode {
 struct ContinueStmtNode : ASTNode {
     ContinueStmtNode(int ln, int col)
         : ASTNode(NodeKind::ContinueStmt, ln, col) {}
+};
+
+// ---------------------------------------------------------------------------
+// Parameter — one name in a function's parameter list
+// ---------------------------------------------------------------------------
+struct Parameter {
+    std::string name;
+    int         line;
+    int         column;
+};
+
+// ---------------------------------------------------------------------------
+// FunctionDeclNode — kafaam name(a, b) { ... }
+//   Allowed only at the top level of a program.
+//   returnsValue is a syntactic fact recorded by the parser: true when the
+//   body contains at least one 'Wafapafas <expr>;'.
+// ---------------------------------------------------------------------------
+struct FunctionDeclNode : ASTNode {
+    std::string            name;
+    std::vector<Parameter> params;
+    ASTNodePtr             body;          // Always a BlockNode
+    bool                   returnsValue;
+
+    FunctionDeclNode(std::string fnName, std::vector<Parameter> ps, ASTNodePtr b,
+                     bool retVal, int ln, int col)
+        : ASTNode(NodeKind::FunctionDecl, ln, col),
+          name(std::move(fnName)),
+          params(std::move(ps)),
+          body(std::move(b)),
+          returnsValue(retVal) {}
+};
+
+// ---------------------------------------------------------------------------
+// ReturnStmtNode — Wafapafas expr;  or  Wafapafas;
+//   value is nullptr for a return without a value.
+// ---------------------------------------------------------------------------
+struct ReturnStmtNode : ASTNode {
+    ASTNodePtr value;
+
+    ReturnStmtNode(ASTNodePtr val, int ln, int col)
+        : ASTNode(NodeKind::ReturnStmt, ln, col), value(std::move(val)) {}
+};
+
+// ---------------------------------------------------------------------------
+// CallExprNode — name(arg, arg)
+// ---------------------------------------------------------------------------
+struct CallExprNode : ASTNode {
+    std::string             callee;
+    std::vector<ASTNodePtr> arguments;
+
+    CallExprNode(std::string name, std::vector<ASTNodePtr> args, int ln, int col)
+        : ASTNode(NodeKind::CallExpr, ln, col),
+          callee(std::move(name)),
+          arguments(std::move(args)) {}
+};
+
+// ---------------------------------------------------------------------------
+// CallStmtNode — name(arg, arg);
+//   A call used as a statement; its result (if any) is discarded.
+// ---------------------------------------------------------------------------
+struct CallStmtNode : ASTNode {
+    ASTNodePtr call;        // Always a CallExprNode
+
+    CallStmtNode(ASTNodePtr c, int ln, int col)
+        : ASTNode(NodeKind::CallStmt, ln, col), call(std::move(c)) {}
 };

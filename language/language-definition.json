@@ -121,21 +121,27 @@
       "macro": "FZ_FUNCTION",
       "word": "kafaam",
       "meaning": "function / work",
-      "description": "Function / work (Stage 5 — reserved, not compiled yet)",
+      "description": "Declare a function at the top level: kafaam name(a, b) { ... }. Parameters are untyped. A function sees only its parameters and its own variables, not top-level variables.",
       "group": "functions",
       "groupTitle": "Functions",
       "tmScope": "keyword.control.fayzul",
-      "implemented": false
+      "implemented": true,
+      "snippet": {
+        "body": "kafaam ${1:name}(${2:params}) {\n\t$0\n}"
+      }
     },
     {
       "macro": "FZ_RETURN",
       "word": "Wafapafas",
       "meaning": "return / back",
-      "description": "Return / send back a value (Stage 5 — reserved, not compiled yet)",
+      "description": "Return from a function: 'Wafapafas value;' or 'Wafapafas;'. A function either always returns a value or never does.",
       "group": "functions",
       "groupTitle": "Functions",
       "tmScope": "keyword.control.fayzul",
-      "implemented": false
+      "implemented": true,
+      "snippet": {
+        "body": "Wafapafas ${1:value};"
+      }
     },
     {
       "macro": "FZ_TRUE",

@@ -1,0 +1,23 @@
+kafaam jor(a, b) {
+    Wafapafas a + b;
+}
+kafaam dugna(x) {
+    Wafapafas x * 2;
+}
+kafaam chuno(shart, a, b) {
+    afagafar (shart) {
+        Wafapafas a;
+    }
+    Wafapafas b;
+}
+difikhkhafa(jor(2, 3), " ", jor(2, 0.5), " ", jor(1.5, 1.5), bafas);
+difikhkhafa(dugna(3), " ", dugna(1.25), bafas);
+difikhkhafa(chuno(Safach, 1, 2), " ", chuno(Jhufoot, "x", "y"), " ", chuno(1 bafaraHafai 2, 3.5, 4.5), bafas);
+// decimal-safe recursion: the base case returns a decimal
+kafaam power(base, e) {
+    afagafar (e bafarrafabafarHafai 0) {
+        Wafapafas 1.0;
+    }
+    Wafapafas base * power(base, e - 1);
+}
+difikhkhafa(power(2, 10), " ", power(1.5, 2), bafas);

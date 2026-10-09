@@ -1,0 +1,10 @@
+// A parenthesised value directly after the target is an assignment, not a call
+rafkkhafo x 0 kefeBafarrafabafar;
+x (1) kefeBafarrafabafar;
+difikhkhafa(x, bafas);
+x (1) + 2 kefeBafarrafabafar;
+difikhkhafa(x, bafas);
+x (x + 1) * (x - 1) kefeBafarrafabafar;
+difikhkhafa(x, bafas);
+x ((2)) kefeBafarrafabafar;
+difikhkhafa(x, bafas);

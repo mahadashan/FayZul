@@ -1,0 +1,2 @@
+[C++ Error] Line 5: This 'Wafapafas' returns a decimal number, but an earlier 'Wafapafas' in the same function returned a whole number
+e.g. 1.0 instead of 1

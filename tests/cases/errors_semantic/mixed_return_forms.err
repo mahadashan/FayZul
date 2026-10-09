@@ -1,0 +1,1 @@
+[Semantic Error] Line 5, Column 5: Function 'f' has both 'Wafapafas;' (no value) and 'Wafapafas <value>;'; this one conflicts with the one on line 3

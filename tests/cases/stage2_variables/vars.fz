@@ -1,0 +1,9 @@
+rafkkhafo x 10 kefeBafarrafabafar;
+rafkkhafo name "Ali" kefeBafarrafabafar;
+rafkkhafo flag Safach kefeBafarrafabafar;
+rafkkhafo pi 3.14 kefeBafarrafabafar;
+difikhkhafa(x, " ", name, " ", flag, " ", pi, bafas);
+x 99 kefeBafarrafabafar;
+difikhkhafa(x, bafas);
+x x + 1 kefeBafarrafabafar;
+difikhkhafa(x, bafas);

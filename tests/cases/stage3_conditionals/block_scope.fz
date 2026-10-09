@@ -1,0 +1,10 @@
+rafkkhafo x 1 kefeBafarrafabafar;
+afagafar (Safach) {
+    rafkkhafo x 2 kefeBafarrafabafar;
+    difikhkhafa("inner ", x, bafas);
+}
+difikhkhafa("outer ", x, bafas);
+afagafar (Safach) {
+    x 3 kefeBafarrafabafar;
+}
+difikhkhafa("outer ", x, bafas);

@@ -1,0 +1,26 @@
+kafaam dikhao(v) {
+    difikhkhafa("dikhao ", v, bafas);
+}
+kafaam ek() {
+    Wafapafas 1;
+}
+rafkkhafo x 0 kefeBafarrafabafar;
+
+// call statements: ')' matching the first '(' is followed by ';'
+dikhao(1);
+dikhao((2));
+dikhao((1) + 2);
+dikhao(ek());
+ek();
+
+// assignments: ')' is followed by something other than ';'
+x (5) kefeBafarrafabafar;
+difikhkhafa(x, bafas);
+x (1) + 2 kefeBafarrafabafar;
+difikhkhafa(x, bafas);
+x (ek()) kefeBafarrafabafar;
+difikhkhafa(x, bafas);
+x ek() kefeBafarrafabafar;
+difikhkhafa(x, bafas);
+x (x + ek()) * (2) kefeBafarrafabafar;
+difikhkhafa(x, bafas);
