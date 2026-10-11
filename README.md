@@ -3,6 +3,7 @@
 **FayZul is an esoteric programming language inspired by the Urdu secret language `ف کی بولی` (F ki Boli).** It is a fun, intentionally impractical project for Urdu speakers, built as a university Compiler Construction project.
 
 <img width="1920" height="1080" alt="f00230" src="https://github.com/user-attachments/assets/874ec1b6-a03b-4497-a3b9-7ad388fcab9b" />
+<br>
 
 The defining idea behind FayZul comes from F ki Boli, a way of transforming and elongating Urdu words so that someone who knows Urdu may not understand them immediately. For example, FayZul's print keyword **`difikhkhafa`** is an F ki Boli form of the Urdu word **`dikha`** ("show"). FayZul applies this linguistic idea to programming syntax, giving familiar programming concepts unusual, obfuscated-looking words.
 
